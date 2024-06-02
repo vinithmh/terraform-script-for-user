@@ -3,12 +3,12 @@ provider "aws" {
 }
 
 resource "aws_codecommit_repository" "revhire-user-repository" {
-  repository_name = "revhire-user-repository"
+  repository_name = "revhire-user-repository-auto"
   description     = "A revhire user-repository on AWS CodeCommit"
 }
 
 resource "aws_iam_role" "codebuild_role" {
-  name = "codebuild-service-role-for-user"
+  name = "codebuild-service-role-for-user-auto"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -27,7 +27,7 @@ data "aws_codecommit_repository" "revhire-user-repository" {
 }
 
 resource "aws_iam_role_policy" "codebuild_policy" {
-  name = "codebuild-policy"
+  name = "codebuild-policy-auto"
   role = aws_iam_role.codebuild_role.id
 
   policy = jsonencode({
@@ -179,7 +179,7 @@ resource "aws_codebuild_project" "revhire-user-build" {
 }
 
 resource "aws_iam_role" "codepipeline_role" {
-  name = "codepipeline-service-role-user"
+  name = "codepipeline-service-role-user-auto"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -194,7 +194,7 @@ resource "aws_iam_role" "codepipeline_role" {
 }
 
 resource "aws_iam_role_policy" "codepipeline_policy" {
-  name = "codepipeline-policy"
+  name = "codepipeline-policy-auto"
   role = aws_iam_role.codepipeline_role.id
 
   policy = jsonencode({
@@ -262,7 +262,7 @@ resource "aws_s3_bucket_policy" "codepipeline_bucket_policy" {
 }
 
 resource "aws_codepipeline" "revhire_job_pipeline" {
-  name     = "revhire-user-pipeline"
+  name     = "revhire-user-pipeline-auto"
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
